@@ -1,0 +1,24 @@
+{
+  "name": "aws-step-functions",
+  "version": "1.0.0",
+  "description": "Configured as POST endpoint that sends event to Step Function which in turn invokes Lambda",
+  "main": "index.js",
+  "scripts": {
+    "build-serverless": "serverless package",
+    "deploy": "serverless deploy",
+    "remove": "serverless remove",
+    "print": "serverless print",
+    "eslint": "eslint *.js"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "aws-sdk": "^2.722.0",
+    "eslint": "^5.16.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.17.2",
+    "serverless": "^2.48.0",
+    "serverless-jetpack": "^0.11.1",
+    "serverless-plugin-common-excludes": "^3.0.1",
+    "serverless-step-functions": "^2.30.0"
+  }
+}

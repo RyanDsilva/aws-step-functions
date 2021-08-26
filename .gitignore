@@ -1,0 +1,13 @@
+node_modules/
+state/*.json
+dist/
+.history
+.pidfile
+reports/*
+coverage/*
+.nyc_output/*
+package-lock.json
+.env
+.serverless/*
+.npm/*
+.DS_Store

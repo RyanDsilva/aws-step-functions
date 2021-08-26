@@ -1,0 +1,55 @@
+service: aws-step-functions
+
+variablesResolutionMode: 20210326
+
+provider:
+  name: aws
+  stage: ${opt:stage, 'dev'}
+  # profile: profile-name
+  region: eu-west-1
+  runtime: nodejs14.x
+  versionFunctions: false
+
+package:
+  individually: true
+  patterns:
+    - '!node_modules/aws-sdk/**'
+    - '!.npm/**'
+
+functions:
+  action:
+    name: ${self:provider.stage}-action
+    description: Action
+    handler: index.handler
+    memorySize: 256
+    maximumRetryAttempts: 2
+    timeout: 10
+
+stepFunctions:
+  stateMachines:
+    stepFunctionName:
+      name: ${self:provider.stage}-stepFunctionName
+      events:
+        - http:
+            path: execute
+            method: POST
+            cors: true
+      definition:
+        Comment: "Description of Step Function"
+        StartAt: WaitTillScheduled
+        States:
+          WaitTillScheduled:
+            Type: Wait
+            TimestampPath: "$.dueDate"
+            Next: ActionEvent
+          ActionEvent:
+            Type: Task
+            Resource:
+              Fn::GetAtt: [functionName, Arn]
+            End: true
+  validate: true
+
+plugins:
+  - serverless-step-functions
+  - serverless-plugin-common-excludes
+  - serverless-jetpack
